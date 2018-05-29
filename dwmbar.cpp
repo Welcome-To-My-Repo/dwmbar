@@ -4,20 +4,23 @@
 #include <fstream>
 #include <thread>
 #include <chrono>
+#include <cmath>
 #include <time.h>
 #include <iostream>
 #include <cstdlib>
 #include <sys/sysinfo.h>
 #include <linux/kernel.h>
 
-int UPDATE_DELAY = 500;
+static const int UPDATE_DELAY = 500;			//delay in milliseconds between updates
+static const char * DATE_DISPLAY = "%a %x %X";	//the format for the date ((use "man strftime" for formatting options)
 
 double lastCPU[2] = {0, 0};
 
 std::string BATTERY_charge ();
 std::string BATTERY_state ();
 std::string DATE_TIME ();
-std::string MEM ();
+std::string MEM_use ();
+std::string MEM_load ();	//not working, the math is wrong somehow
 std::string CPU ();
 std::string PROCESSES ();
 void SetRootName (const char *name);
@@ -31,13 +34,16 @@ int main ()
 	while (true)
 
 	{
-		bar = "RAM: " + MEM () + "% "
+
+		//bar = "RAM: " + MEM_use () + "kB " + MEM_load () + "% "
+		bar = "RAM: " + MEM_use () + "kB "
 		+ "CPU: " + CPU () + "% "
 		+ "PROCS: " + PROCESSES () + " "
 		+ "BATTERY: " + BATTERY_state () + " " + BATTERY_charge () + "% "
 		+ DATE_TIME ();
 
 		SetRootName (bar.c_str ());
+		//std::cout << bar << std::endl;
 		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 	}
@@ -62,6 +68,9 @@ std::string BATTERY_charge ()
 		charge = "?";
 
 	capacity.close ();
+
+	while (charge.size () < 3 and charge != "?")
+		charge = "-" + charge;
 
 	return charge;
 
@@ -100,31 +109,47 @@ std::string DATE_TIME ()
 	struct tm *info;
 
 	info = localtime (&rawtime);
-	strftime (date, 64, "%a %x %X", info);
+	strftime (date, 64, DATE_DISPLAY, info);
 	out = date;
 
 	return out;
 
 }
 
-std::string MEM ()
+std::string MEM_use ()
+
+{
+
+	struct sysinfo sysinf;
+
+	sysinfo (&sysinf);
+	unsigned long long int RAM_use = sysinf.totalram - sysinf.freeram;
+	long long int RAM_load = RAM_use / 1024;	//convert to kB
+
+	return std::to_string (RAM_load);
+
+}
+
+std::string MEM_load ()
 
 {
 
 	std::string out;
+
 	struct sysinfo sysinf;
-
 	sysinfo (&sysinf);
-	long double RAM_all = sysinf.totalhigh, RAM_used = sysinf.totalhigh - sysinf.freehigh;
 
-	long double RAM_usage;
-	int RAM_usage_trunc;
+	unsigned long long int RAM_use = sysinf.totalram - sysinf.freeram, RAM_total = sysinf.totalram;
 
-	//RAM_usage = (RAM_used / RAM_all) * 100;
-	RAM_usage = (RAM_all / RAM_used) * 100;
-	RAM_usage_trunc = (int) RAM_usage;
+	double RAM_percent = (((double) RAM_use / 1048576) / ((double)RAM_total / 1048576)) * 100;
 
-	out = std::to_string (RAM_usage_trunc);
+	int RAM_percent_round = round (RAM_percent);
+
+	out = std::to_string (RAM_percent_round);
+
+	while (out.size () < 3)
+		out = "-" + out;
+
 	return out;
 
 }
@@ -207,12 +232,15 @@ std::string CPU ()
 
 	}
 
-	lastCPU[0] = CPU_work;
-	lastCPU[1] = CPU_total;
-
 	CPU_percent = ((CPU_work - lastCPU[0]) / (CPU_total - lastCPU[1])) * 100;
 	CPU_percent_trunc = (int) CPU_percent;
+
+	lastCPU[0] = CPU_work;
+	lastCPU[1] = CPU_total;
 	out = std::to_string (CPU_percent_trunc);
+
+	while (out.size () < 3)
+		out = "-" + out;
 
 	return out;
 
@@ -222,12 +250,28 @@ std::string PROCESSES ()
 
 {
 
-	std::string out;
-	struct sysinfo sysinf;
+	std::string running;
 
-	out = std::to_string (sysinf.procs);
+	std::ifstream procs;
+	procs.open ("/proc/stat");
+	if (procs.is_open ())
 
-	return out;
+	{
+		for (int i = 0; i < 13; i++)
+			std::getline (procs, running);
+
+		running.erase (0, 10);
+
+	}
+	else
+		running = "?";
+
+	procs.close ();
+
+	while (running.size () < 7 and running != "?")
+		running = "-" + running;
+
+	return running;
 
 }
 
