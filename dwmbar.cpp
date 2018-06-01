@@ -294,7 +294,10 @@ std::string OPTION_TWO ()
 
 {
 
-	std::string bar = "";
+	std::string bar =
+	CPU () + "% "
+	+ BATTERY_charge () + "% "
+	+ DATE_TIME ();
 
 	return bar;
 
@@ -304,7 +307,7 @@ std::string OPTION_THREE ()
 
 {
 
-	std::string bar = "";
+	std::string bar = DATE_TIME ();
 
 	return bar;
 
