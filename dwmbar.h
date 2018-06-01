@@ -1,0 +1,12 @@
+#include <string>
+#include <X11/Xlib.h>
+#include <cstring>
+#include <fstream>
+#include <thread>
+#include <chrono>
+#include <cmath>
+#include <time.h>
+#include <iostream>
+#include <cstdlib>
+#include <sys/sysinfo.h>
+#include <linux/kernel.h>

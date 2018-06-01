@@ -1,21 +1,11 @@
-#include <string>
-#include <X11/Xlib.h>
-#include <cstring>
-#include <fstream>
-#include <thread>
-#include <chrono>
-#include <cmath>
-#include <time.h>
-#include <iostream>
-#include <cstdlib>
-#include <sys/sysinfo.h>
-#include <linux/kernel.h>
-
+#include "dwmbar.h"
+#include "dwmbar_config.h"
+/*
 static const int UPDATE_DELAY = 500;			//delay in milliseconds between updates
 static const char * DATE_DISPLAY = "%a %x %X";	//the format for the date ((use "man strftime" for formatting options)
 
 double lastCPU[2] = {0, 0};
-
+*/
 std::string BATTERY_charge ();
 std::string BATTERY_state ();
 std::string DATE_TIME ();
@@ -42,8 +32,8 @@ int main ()
 		+ "BATTERY: " + BATTERY_state () + " " + BATTERY_charge () + "% "
 		+ DATE_TIME ();
 
-		SetRootName (bar.c_str ());
-		//std::cout << bar << std::endl;
+		//SetRootName (bar.c_str ());
+		std::cout << bar << std::endl;
 		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 	}
