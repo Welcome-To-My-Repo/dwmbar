@@ -1,19 +1,5 @@
 #include "dwmbar.h"
 #include "dwmbar_config.h"
-/*
-static const int UPDATE_DELAY = 500;			//delay in milliseconds between updates
-static const char * DATE_DISPLAY = "%a %x %X";	//the format for the date ((use "man strftime" for formatting options)
-
-double lastCPU[2] = {0, 0};
-*/
-std::string BATTERY_charge ();
-std::string BATTERY_state ();
-std::string DATE_TIME ();
-std::string MEM_use ();
-std::string MEM_load ();	//not working, the math is wrong somehow
-std::string CPU ();
-std::string PROCESSES ();
-void SetRootName (const char *name);
 
 int main ()
 
