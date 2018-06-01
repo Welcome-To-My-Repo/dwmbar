@@ -22,3 +22,7 @@ std::string CPU ();
 std::string PROCESSES ();
 
 void SetRootName (const char *name);
+
+std::string OPTION_ONE ();
+std::string OPTION_TWO ();
+std::string OPTION_THREE ();

@@ -7,12 +7,3 @@ correctly outside of DWM.
 Configuration is done by editing dwmbar_config.h. There's no need to
 bother with the other source files unless drastically different
 behavior is desired.
-
-The following are descriptions of the available information that
-dwmbar can display.
-
-CPU
-	The CPU load is averaged across all cores and displayed as a
-percentage.
-
-The memory load is displayed as an amount in kilobytes.

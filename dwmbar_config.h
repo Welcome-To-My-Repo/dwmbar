@@ -7,3 +7,9 @@ static const char * 	//This sets the format of the date and time.
 			//use "man strftime" or go to the link
 			//"http://en.cppreference.com/w/cpp/chrono/c/strftime"
 DATE_DISPLAY = "%a %x %X";
+
+static const int	//The DISPLAY option chooses how dwmbar
+			//display's information on the taskbar.
+			//Right now there are options 1 - 3 to choose
+			//from.
+DISPLAY = 1;

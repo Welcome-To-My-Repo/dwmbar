@@ -11,15 +11,27 @@ int main ()
 
 	{
 
-		//bar = "RAM: " + MEM_use () + "kB " + MEM_load () + "% "
-		bar = "RAM: " + MEM_use () + "kB "
-		+ "CPU: " + CPU () + "% "
-		+ "PROCS: " + PROCESSES () + " "
-		+ "BATTERY: " + BATTERY_state () + " " + BATTERY_charge () + "% "
-		+ DATE_TIME ();
+		switch (DISPLAY)
 
-		//SetRootName (bar.c_str ());
-		std::cout << bar << std::endl;
+		{
+
+			case 1:
+
+				SetRootName (OPTION_ONE ().c_str ());
+				break;
+
+			case 2:
+
+				SetRootName (OPTION_TWO ().c_str ());
+				break;
+
+			case 3:
+
+				SetRootName (OPTION_THREE ().c_str ());
+				break;
+
+		}
+
 		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 	}
@@ -260,5 +272,40 @@ void SetRootName (const char *name)
 	XStoreName (display, DefaultRootWindow (display), name);
 	XSync (display, 0);
 	XCloseDisplay (display);
+
+}
+
+std::string OPTION_ONE ()
+
+{
+
+	std::string bar =
+	"RAM: " + MEM_use () + "kB "
+	+ "CPU: " + CPU () + "% "
+	+ "PROCS: " + PROCESSES () + " "
+	+ "BATTERY: " + BATTERY_state () + " " + BATTERY_charge () + "% "
+	+ DATE_TIME ();
+
+	return bar;
+
+}
+
+std::string OPTION_TWO ()
+
+{
+
+	std::string bar = "";
+
+	return bar;
+
+}
+
+std::string OPTION_THREE ()
+
+{
+
+	std::string bar = "";
+
+	return bar;
 
 }
