@@ -12,4 +12,4 @@ static const std::string	//The DISPLAY option chooses how dwmbar
 			//display's information on the taskbar.
 			//Right now there are options 1 - 3 to choose
 			//from.
-DISPLAY = "RAM: `MEM_use`kB CPU: `CPU`% PROCS: `PROCESSES` BATTERY: `BATTERY_state` `BATTERY_charge`% `DATE_TIME`"
+DISPLAY = "RAM: `MEM_use`kB CPU: `CPU`% PROCS: `PROCESSES` BATTERY: `BATTERY_state` `BATTERY_charge`% `DATE_TIME`";

@@ -11,26 +11,8 @@ int main ()
 
 	{
 
-		switch (DISPLAY)
-
-		{
-
-			case 1:
-
-				SetRootName (OPTION_ONE ().c_str ());
-				break;
-
-			case 2:
-
-				SetRootName (OPTION_TWO ().c_str ());
-				break;
-
-			case 3:
-
-				SetRootName (OPTION_THREE ().c_str ());
-				break;
-
-		}
+		//SetRootName (ParseDISPLAY ().c_str ());
+		std::cout << ParseDISPLAY ().c_str () << std::endl;
 
 		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
@@ -301,7 +283,7 @@ std::string ParseDISPLAY ()
 
 	{
 
-		if (a == "`")
+		if (a == '`')
 
 		{
 
@@ -309,7 +291,7 @@ std::string ParseDISPLAY ()
 
 			{
 
-				if (a == "`")
+				if (a == '`')
 					break;
 
 				functionName = functionName + a;
@@ -343,3 +325,8 @@ std::string ParseDISPLAY ()
 
 		else
 			out = out + a;
+
+	}
+
+	return out;
+}
