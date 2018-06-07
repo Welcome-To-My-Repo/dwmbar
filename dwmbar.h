@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <sys/sysinfo.h>
 #include <linux/kernel.h>
+#include <sstream>
 
 double lastCPU[2] = {0, 0};
 
@@ -23,6 +24,4 @@ std::string PROCESSES ();
 
 void SetRootName (const char *name);
 
-std::string OPTION_ONE ();
-std::string OPTION_TWO ();
-std::string OPTION_THREE ();
+std::string ParseDISPLAY ();

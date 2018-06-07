@@ -275,7 +275,7 @@ void SetRootName (const char *name)
 
 }
 
-std::string OPTION_ONE ()
+/*std::string OPTION_ONE ()
 
 {
 
@@ -288,27 +288,58 @@ std::string OPTION_ONE ()
 
 	return bar;
 
-}
-
-std::string OPTION_TWO ()
-
-{
-
-	std::string bar =
-	CPU () + "% "
-	+ BATTERY_charge () + "% "
-	+ DATE_TIME ();
-
-	return bar;
-
-}
-
-std::string OPTION_THREE ()
+}*/
+std::string ParseDISPLAY ()
 
 {
 
-	std::string bar = DATE_TIME ();
+	std::string out = "", functionName = "";
+	char a;
+	std::istringstream parse (DISPLAY);
 
-	return bar;
+	while (parse.get(a))
 
-}
+	{
+
+		if (a == "`")
+
+		{
+
+			while (parse.get(a))
+
+			{
+
+				if (a == "`")
+					break;
+
+				functionName = functionName + a;
+
+			}
+
+			if (functionName == "BATTERY_charge")
+				out = out + BATTERY_charge ();
+
+			else if (functionName == "BATTERY_state")
+				out = out + BATTERY_state ();
+
+			else if (functionName == "DATE_TIME")
+				out = out + DATE_TIME ();
+
+			else if (functionName == "MEM_use")
+				out = out + MEM_use ();
+
+			else if (functionName == "MEM_load")
+				out = out + MEM_load ();
+
+			else if (functionName == "CPU")
+				out = out + CPU ();
+
+			else if (functionName == "PROCESSES")
+				out = out + PROCESSES ();
+
+			else {}
+
+		}
+
+		else
+			out = out + a;
