@@ -1,9 +1,37 @@
 This is a utility to provide system information to the taskbar in
 Suckless.org's DWM.
 
-This program comes with no guarantees and definitely won't work
-correctly outside of DWM.
+This program comes with no guarantees and definitely will have
+unexpected behavior outside of DWM.
 
 Configuration is done by editing dwmbar_config.h. There's no need to
 bother with the other source files unless drastically different
 behavior is desired.
+
+The DISPLAY string sets how dwmbar displays the system information.
+The functions used to get system information are called by their name
+inside a set of Grave Accents (Grave Accent = ` ). Any other notation
+including white space is entered normally inside the string quotes.
+
+The following functions are available for use. Each return only number
+with no other notation or formatting (excepting the DATE_TIME
+function which has it's own formatting setting).
+
+MEM
+	gives the amount of RAM currently used in a number of kB.
+
+CPU
+	gives the average CPU usage across all cores in a percentage
+
+PROCESSES
+	gives the number of processes currently running
+
+BATTERY_state
+	gives the state of the battery i.e. "charging", "full", etc...
+
+BATTERY_charge
+	gives the level of charge left in the battery in a percentage
+
+DATE_TIME
+	gives the date and/or time depending on the formatting in
+	DATE_DISPLAY

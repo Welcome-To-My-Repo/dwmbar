@@ -1,4 +1,4 @@
-dwmbar: dwmbar.cpp dwmbar.h dwmbar_config.h
+dwmbar: dwmbar.cpp dwmbar.h config.h
 	g++ -odwmbar dwmbar.cpp -O2 -s -lX11
 
 dwmbar_dbg: dwmbar.cpp

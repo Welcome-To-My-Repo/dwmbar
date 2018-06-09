@@ -1,5 +1,5 @@
 #include "dwmbar.h"
-#include "dwmbar_config.h"
+#include "config.h"
 
 int main ()
 
@@ -11,8 +11,8 @@ int main ()
 
 	{
 
-		//SetRootName (ParseDISPLAY ().c_str ());
-		std::cout << ParseDISPLAY ().c_str () << std::endl;
+		SetRootName (ParseDISPLAY ().c_str ());
+		//std::cout << ParseDISPLAY ().c_str () << std::endl;
 
 		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
@@ -39,8 +39,8 @@ std::string BATTERY_charge ()
 
 	capacity.close ();
 
-	while (charge.size () < 3 and charge != "?")
-		charge = "-" + charge;
+	//while (charge.size () < 3 and charge != "?")
+	//	charge = "-" + charge;
 
 	return charge;
 
@@ -117,8 +117,8 @@ std::string MEM_load ()
 
 	out = std::to_string (RAM_percent_round);
 
-	while (out.size () < 3)
-		out = "-" + out;
+	//while (out.size () < 3)
+	//	out = "-" + out;
 
 	return out;
 
@@ -209,8 +209,8 @@ std::string CPU ()
 	lastCPU[1] = CPU_total;
 	out = std::to_string (CPU_percent_trunc);
 
-	while (out.size () < 3)
-		out = "-" + out;
+	//while (out.size () < 3)
+	//	out = "-" + out;
 
 	return out;
 
@@ -238,8 +238,8 @@ std::string PROCESSES ()
 
 	procs.close ();
 
-	while (running.size () < 7 and running != "?")
-		running = "-" + running;
+	//while (running.size () < 7 and running != "?")
+	//	running = "-" + running;
 
 	return running;
 
@@ -257,20 +257,6 @@ void SetRootName (const char *name)
 
 }
 
-/*std::string OPTION_ONE ()
-
-{
-
-	std::string bar =
-	"RAM: " + MEM_use () + "kB "
-	+ "CPU: " + CPU () + "% "
-	+ "PROCS: " + PROCESSES () + " "
-	+ "BATTERY: " + BATTERY_state () + " " + BATTERY_charge () + "% "
-	+ DATE_TIME ();
-
-	return bar;
-
-}*/
 std::string ParseDISPLAY ()
 
 {
@@ -290,11 +276,10 @@ std::string ParseDISPLAY ()
 			while (parse.get(a))
 
 			{
-
 				if (a == '`')
 					break;
 
-				functionName = functionName + a;
+				functionName.append (1, a);
 
 			}
 
@@ -307,7 +292,7 @@ std::string ParseDISPLAY ()
 			else if (functionName == "DATE_TIME")
 				out = out + DATE_TIME ();
 
-			else if (functionName == "MEM_use")
+			else if (functionName == "MEM")
 				out = out + MEM_use ();
 
 			else if (functionName == "MEM_load")
@@ -320,6 +305,8 @@ std::string ParseDISPLAY ()
 				out = out + PROCESSES ();
 
 			else {}
+
+			functionName.clear ();
 
 		}
 
