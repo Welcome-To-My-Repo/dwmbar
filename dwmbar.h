@@ -1,4 +1,5 @@
 #include <string>
+#include <cstring>
 #include <X11/Xlib.h>
 #include <cstring>
 #include <fstream>
@@ -11,6 +12,8 @@
 #include <sys/sysinfo.h>
 #include <linux/kernel.h>
 #include <sstream>
+
+#include "config.h"
 
 double lastCPU[2] = {0, 0};
 

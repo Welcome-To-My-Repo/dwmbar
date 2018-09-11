@@ -1,7 +1,7 @@
 dwmbar: dwmbar.cpp dwmbar.h config.h
 	g++ -odwmbar dwmbar.cpp -O2 -s -lX11
 
-dwmbar_dbg: dwmbar.cpp
+dbg: dwmbar.cpp dwmbar.h config.h
 	g++ -odwmbar dwmbar.cpp -O2 -s -lX11 -g3
 
 clean:

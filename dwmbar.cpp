@@ -1,20 +1,67 @@
 #include "dwmbar.h"
-#include "config.h"
 
-int main ()
+int main (int argc, char **argv)
 
 {
 
 	std::string bar;
+	char args [7];
 
-	while (true)
+	std::cout << argc;
+
+	if (argc > 1)
 
 	{
 
-		SetRootName (ParseDISPLAY ().c_str ());
-		//std::cout << ParseDISPLAY ().c_str () << std::endl;
+		strcpy (args, argv[1]);
+	
+		if (strcmp (args, "-print") == 0)
 
-		std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
+		{
+
+			while (true)
+
+			{
+
+				std::cout << "\r" << ParseDISPLAY ().c_str ();
+				std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
+
+			}
+
+		}
+
+		else
+
+		{
+
+			while (true)
+
+			{
+
+				SetRootName (ParseDISPLAY ().c_str ());
+				std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
+
+			}
+
+		}
+
+	}
+
+	else
+
+	{
+
+
+		while (true)
+
+		{
+
+			SetRootName (ParseDISPLAY ().c_str ());
+			//std::cout << ParseDISPLAY ().c_str () << std::endl;
+
+			std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
+
+		}
 
 	}
 

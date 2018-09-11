@@ -1,6 +1,6 @@
 This is a simple license for software
 
-Version 1.0
+Version 1.1
 
 You (the party in possession of these source files) are hereby granted
 free, unlimited use of these source files provided the following
@@ -17,16 +17,15 @@ conditions are satisfied:
 	source files in the new work to avoid confusion.
 
 3.	When making changes to these source files, this license MUST
-	be included with the modified content. Documentation MUST be
-	included citing these source files as the origin of the
-	modified content AND crediting the author with copyright of
-	the original source files.
+	be included with the modified content along with documentation
+	citing these source files as the origin of the modified
+	content AND crediting the author with copyright of the
+	original source files.
 
-4.	The author of these source files shall be exempt from any
-	legal responsibility and/or liability in association with
-	these source files. Please be aware that there is NO
-	GUARANTEE that this software will function properly, or
-	even at all. The author will not be held accountable for any
+4.	THESE SOURCE FILES COME WITH ABSOLUTELY NO GUARANTEE! The
+	author of these source files shall be exempt from any legal
+	responsibility and/or liability in association with these
+	source files. The author will not be held accountable for any
 	loss or damages that occur in association with these source
 	files.
 
