@@ -7,14 +7,12 @@ int main (int argc, char **argv)
 	std::string bar;
 	char args [7];
 
-	std::cout << argc;
-
 	if (argc > 1)
 
 	{
 
-		strcpy (args, argv[1]);
-	
+		strncpy (args, argv[1], 7);
+
 		if (strcmp (args, "-print") == 0)
 
 		{
@@ -23,7 +21,7 @@ int main (int argc, char **argv)
 
 			{
 
-				std::cout << "\r" << ParseDISPLAY ().c_str ();
+				std::cout << ParseDISPLAY ().c_str () << std::endl;
 				std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 			}
@@ -39,6 +37,7 @@ int main (int argc, char **argv)
 			{
 
 				SetRootName (ParseDISPLAY ().c_str ());
+
 				std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 			}
@@ -51,19 +50,18 @@ int main (int argc, char **argv)
 
 	{
 
-
 		while (true)
 
 		{
 
 			SetRootName (ParseDISPLAY ().c_str ());
-			//std::cout << ParseDISPLAY ().c_str () << std::endl;
 
 			std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
 
 		}
 
 	}
+
 
 	return 0;
 
