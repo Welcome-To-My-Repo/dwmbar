@@ -22,7 +22,6 @@ std::string BATTERY_charge ();
 std::string BATTERY_state ();
 std::string DATE_TIME ();
 std::string MEM_use ();
-std::string MEM_load ();	//not working, the math is wrong somehow
 std::string CPU ();
 std::string PROCESSES ();
 std::string VOLUME ();

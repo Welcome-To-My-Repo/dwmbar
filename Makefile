@@ -1,8 +1,11 @@
+NVIDIA_PATH = /opt/cuda/include
+FLAGS = -I$(NVIDIA_PATH) -lnvidia-ml -lX11 -O2 -s
+
 dwmbar: dwmbar.cpp dwmbar.h config.h
-	g++ -odwmbar dwmbar.cpp -O2 -s -lX11
+	g++ -odwmbar dwmbar.cpp $(FLAGS)
 
 dbg: dwmbar.cpp dwmbar.h config.h
-	g++ -odwmbar dwmbar.cpp -O2 -s -lX11 -g3
+	g++ -odwmbar dwmbar.cpp $(FLAGS) -g3
 
 clean:
 	rm -f dwmbar
