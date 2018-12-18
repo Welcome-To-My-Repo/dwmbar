@@ -12,6 +12,7 @@
 #include <sys/sysinfo.h>
 #include <linux/kernel.h>
 #include <sstream>
+#include <nvml.h>
 
 #include "config.h"
 
@@ -24,6 +25,11 @@ std::string MEM_use ();
 std::string MEM_load ();	//not working, the math is wrong somehow
 std::string CPU ();
 std::string PROCESSES ();
+std::string VOLUME ();
+std::string NVIDIA_TEMP ();
+std::string NVIDIA_GPU_LOAD ();
+std::string NVIDIA_MEM_LOAD ();
+std::string VOLUME ();
 
 void SetRootName (const char *name);
 

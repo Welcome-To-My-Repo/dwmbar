@@ -1,7 +1,6 @@
 #include "dwmbar.h"
 
 int main (int argc, char **argv)
-
 {
 
 	std::string bar;
@@ -21,8 +20,9 @@ int main (int argc, char **argv)
 
 			{
 
-				std::cout << ParseDISPLAY ().c_str () << std::endl;
+				std::cout << ParseDISPLAY ().c_str ();
 				std::this_thread::sleep_for (std::chrono::milliseconds (UPDATE_DELAY));
+				std::cout << '\r';
 
 			}
 
@@ -68,7 +68,6 @@ int main (int argc, char **argv)
 }
 
 std::string BATTERY_charge ()
-
 {
 
 	std::string charge;
@@ -92,7 +91,6 @@ std::string BATTERY_charge ()
 }
 
 std::string BATTERY_state ()
-
 {
 
 	std::string state;
@@ -113,7 +111,6 @@ std::string BATTERY_state ()
 }
 
 std::string DATE_TIME ()
-
 {
 
 	std::string out;
@@ -132,7 +129,6 @@ std::string DATE_TIME ()
 }
 
 std::string MEM_use ()
-
 {
 
 	struct sysinfo sysinf;
@@ -146,7 +142,6 @@ std::string MEM_use ()
 }
 
 std::string MEM_load ()
-
 {
 
 	std::string out;
@@ -170,7 +165,6 @@ std::string MEM_load ()
 }
 
 std::string CPU ()
-
 {
 
 	std::string out;
@@ -262,7 +256,6 @@ std::string CPU ()
 }
 
 std::string PROCESSES ()
-
 {
 
 	std::string running;
@@ -291,7 +284,6 @@ std::string PROCESSES ()
 }
 
 void SetRootName (const char *name)
-
 {
 
 	Display *display;
@@ -303,7 +295,6 @@ void SetRootName (const char *name)
 }
 
 std::string ParseDISPLAY ()
-
 {
 
 	std::string out = "", functionName = "";
@@ -361,4 +352,70 @@ std::string ParseDISPLAY ()
 	}
 
 	return out;
+}
+
+std::string NVIDIA_TEMP ()
+{
+	std::string ret = "";
+	nvmlReturn_t result;
+	unsigned int device_count, i = 0, celcius;
+	nvmlDevice_t device;
+
+	if ((result = nvmlInit ()) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	else
+	{
+		if ((result = nvmlDeviceGetHandleByIndex (i, &device)) != NVML_SUCCESS)
+			ret = nvmlErrorString (result);
+		if ((result = nvmlDeviceGetTemperature (device, NVML_TEMPERATURE_GPU, &celcius)) != NVML_SUCCESS)
+			ret = nvmlErrorString (result);
+
+		ret.append (celcius);
+
+	}
+	return ret;
+}
+
+std::string NVIDIA_GPU_LOAD ()
+{
+	std::string ret = "";
+	unsigned int device_count, i = 0;
+	nvmlReturn_t result;
+	nvmlDevice_t device;
+	nvmlUtilization_t util;
+
+        if ((result = nvmlInit ()) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetUtilizationRates (device, &util)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+
+	ret.append (util.gpu);
+	return ret;
+}
+
+std::string NVIDIA_MEM_LOAD ()
+{
+	std::string ret = "";
+	unsigned int device_count, i = 0;
+	nvmlReturn_t result;
+	nvmlDevice_t device;
+	nvmlBAR1Memory_t mem;
+
+	if ((result = nvmlInit ()) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetBAR1MemmoryInfo (device, &mem)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+
+	ret.append (mem.bar1Used / 1024);
+	return ret;
 }

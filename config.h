@@ -14,4 +14,4 @@ static const std::string
 //	The DISPLAY string dictates the format of the information dwmbar
 //	presents. See README for more details.
 
-DISPLAY = "RAM:`MEM`K CPU:`CPU`% PROCS:`PROCESSES` BATTERY:`BATTERY_state` `BATTERY_charge`% `DATE_TIME`";
+DISPLAY = "GPU TEMP: `NVIDIA_TEMP` GPU RAM: `NVIDIA_MEM_LOAD` GPU: `NVIDIA_GPU_LOAD` RAM:`MEM`K CPU:`CPU`% PROCS:`PROCESSES` BATTERY:`BATTERY_state` `BATTERY_charge`% `DATE_TIME`";
