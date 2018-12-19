@@ -169,8 +169,92 @@ std::string PROCESSES ()
 	else
 		running = "?";
 	procs.close ();
-	
+
 	return running;
+}
+
+std::string NVIDIA_TEMP ()
+{
+	std::string ret = "";
+	std::ostringstream s;
+	nvmlReturn_t result;
+	unsigned int device_count, i = 0, celcius;
+	nvmlDevice_t device;
+
+	if ((result = nvmlInit ()) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	else
+	{
+		if ((result = nvmlDeviceGetHandleByIndex (i, &device)) != NVML_SUCCESS)
+			ret = nvmlErrorString (result);
+		if ((result = nvmlDeviceGetTemperature (device, NVML_TEMPERATURE_GPU, &celcius)) != NVML_SUCCESS)
+			ret = nvmlErrorString (result);
+
+		s << celcius;
+		ret = s.str ();
+	}
+	nvmlShutdown ();
+
+	if (ret.size () == 1)
+		ret = "  " + ret;
+	else if (ret.size () == 2)
+		ret = " " + ret;
+
+	return ret;
+}
+
+std::string NVIDIA_GPU_LOAD ()
+{
+	std::string ret = "";
+	std::ostringstream s;
+	unsigned int device_count, i = 0;
+	nvmlReturn_t result;
+	nvmlDevice_t device;
+	nvmlUtilization_t util;
+
+        if ((result = nvmlInit ()) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+        if ((result = nvmlDeviceGetUtilizationRates (device, &util)) != NVML_SUCCESS)
+                ret = nvmlErrorString (result);
+	nvmlShutdown ();
+
+	s << util.gpu;
+	ret = s.str ();
+	if (ret.size () == 1)
+		ret = "  " + ret;
+	else if (ret.size () == 2)
+		ret = " " + ret;
+	return ret;
+}
+
+std::string NVIDIA_MEM_LOAD ()
+{
+	std::string ret = "";
+	std::ostringstream s;
+	unsigned int device_count, i = 0;
+	nvmlReturn_t result;
+	nvmlDevice_t device;
+	nvmlBAR1Memory_t mem;
+
+	if ((result = nvmlInit ()) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	if ((result = nvmlDeviceGetBAR1MemoryInfo (device, &mem)) != NVML_SUCCESS)
+		ret = nvmlErrorString (result);
+	nvmlShutdown ();
+
+	s << mem.bar1Used / 1024;
+	ret = s.str ();
+	return ret;
 }
 
 void SetRootName (const char *name)
@@ -223,85 +307,4 @@ std::string ParseDISPLAY ()
 			out = out + a;
 	}
 	return out;
-}
-
-std::string NVIDIA_TEMP ()
-{
-	std::string ret = "";
-	std::ostringstream s;
-	nvmlReturn_t result;
-	unsigned int device_count, i = 0, celcius;
-	nvmlDevice_t device;
-
-	if ((result = nvmlInit ()) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-	else
-	{
-		if ((result = nvmlDeviceGetHandleByIndex (i, &device)) != NVML_SUCCESS)
-			ret = nvmlErrorString (result);
-		if ((result = nvmlDeviceGetTemperature (device, NVML_TEMPERATURE_GPU, &celcius)) != NVML_SUCCESS)
-			ret = nvmlErrorString (result);
-
-		s << celcius;
-		ret = s.str ();
-
-	}
-	if (ret.size () == 1)
-		ret = "  " + ret;
-	else if (ret.size () == 2)
-		ret = " " + ret;
-
-	return ret;
-}
-
-std::string NVIDIA_GPU_LOAD ()
-{
-	std::string ret = "";
-	std::ostringstream s;
-	unsigned int device_count, i = 0;
-	nvmlReturn_t result;
-	nvmlDevice_t device;
-	nvmlUtilization_t util;
-
-        if ((result = nvmlInit ()) != NVML_SUCCESS)
-                ret = nvmlErrorString (result);
-        if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
-                ret = nvmlErrorString (result);
-        if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
-                ret = nvmlErrorString (result);
-        if ((result = nvmlDeviceGetUtilizationRates (device, &util)) != NVML_SUCCESS)
-                ret = nvmlErrorString (result);
-
-	s << util.gpu;
-	ret = s.str ();
-	if (ret.size () == 1)
-		ret = "  " + ret;
-	else if (ret.size () == 2)
-		ret = " " + ret;
-	return ret;
-}
-
-std::string NVIDIA_MEM_LOAD ()
-{
-	std::string ret = "";
-	std::ostringstream s;
-	unsigned int device_count, i = 0;
-	nvmlReturn_t result;
-	nvmlDevice_t device;
-	nvmlBAR1Memory_t mem;
-
-	if ((result = nvmlInit ()) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-	if ((result = nvmlDeviceGetCount (&device_count)) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-	if ((result = nvmlDeviceGetHandleByIndex (0, &device)) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-	if ((result = nvmlDeviceGetBAR1MemoryInfo (device, &mem)) != NVML_SUCCESS)
-		ret = nvmlErrorString (result);
-
-	s << mem.bar1Used / 1024;
-	ret = s.str ();
-	return ret;
 }
